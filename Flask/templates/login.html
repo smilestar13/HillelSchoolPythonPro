@@ -5,11 +5,12 @@
     <title>Title</title>
 </head>
 <body>
- <p>Hello {{ name }} {% if password %}your password: {{ password }} {% endif %}</p>
+ <p>Hello user, please enter your login and password to access the system:</p>
   <form method='post'>
       <input type="text" name="name">
       <input type="password" name="password">
       <input type="submit">
   </form>
+     <p>{{ result }}</p>
 </body>
 </html>
