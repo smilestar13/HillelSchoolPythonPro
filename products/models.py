@@ -3,6 +3,7 @@ from os import path
 from django.db import models
 from django.core.validators import MinValueValidator
 
+from products.model_choices import DiscountTypes
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
 
@@ -37,3 +38,24 @@ class Product(PKMixin):
     categories = models.ManyToManyField(Category, blank=True)
     products = models.ManyToManyField("products.Product", blank=True)
 
+
+class Discount(PKMixin):
+    amount = models.DecimalField(
+        max_digits=MAX_DIGITS,
+        decimal_places=DECIMAL_PLACES,
+        default=0
+    )
+    code = models.CharField(
+        max_length=32
+    )
+    is_active = models.BooleanField(
+        default=True
+    )
+    discount_type = models.PositiveSmallIntegerField(
+        choices=DiscountTypes.choices,
+        default=DiscountTypes.VALUE
+    )
+
+    def __str__(self):
+        return f"{self.amount} | {self.code} | " \
+               f"{DiscountTypes(self.discount_type).label}"
