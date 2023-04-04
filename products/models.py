@@ -29,6 +29,9 @@ class Category(PKMixin):
 
     image_tag.short_description = 'Image'
 
+    def __str__(self):
+        return f"{self.name.title()} | {self.description.title()}"
+
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"
