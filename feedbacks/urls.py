@@ -1,7 +1,7 @@
 from django.urls import path
 
-from feedbacks.views import feedbacks
+from feedbacks.views import FeedbacksView
 
 urlpatterns = [
-    path('', feedbacks, name='feedbacks'),
+    path('', FeedbacksView.as_view(), name='feedbacks')
 ]

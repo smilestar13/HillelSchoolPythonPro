@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.views.generic.edit import FormView
 
 from products.forms import ProductModelForm
 from products.models import Product
 
 
-def products(request, *args, **kwargs):
-    form = ProductModelForm()
-    if request.method == 'POST':
-        form = ProductModelForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
-    return render(request, 'products/index.html', context={
-        'products': Product.objects.iterator(),
-        'form': form
-    })
+class ProductsView(FormView):
+    template_name = 'products/index.html'
+    form_class = ProductModelForm
+    success_url = '/products/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = Product.objects.iterator()
+        return context
