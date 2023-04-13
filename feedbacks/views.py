@@ -13,7 +13,7 @@ def feedbacks(request, *args, **kwargs):
         form = FeedbackModelForm(user=user, data=request.POST)
         if form.is_valid():
             form.save()
-    return render(request, 'feedbacks/feedbacks.html', context={
+    return render(request, 'feedbacks/index.html', context={
         'feedbacks': Feedback.objects.iterator(),
         'form': form
     })
