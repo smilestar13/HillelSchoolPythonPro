@@ -1,13 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic.edit import FormView
+from django.views.generic import ListView
+from django.views.generic.edit import FormView  # Проверить работает ли без .edit
 
 from feedbacks.forms import FeedbackModelForm
 from feedbacks.models import Feedback
 
 
 class FeedbacksView(FormView):
-    template_name = 'feedbacks/index.html'
+    template_name = 'feedbacks/create.html'
     form_class = FeedbackModelForm
     success_url = '/feedbacks/'
 
@@ -15,17 +17,16 @@ class FeedbacksView(FormView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
     def form_valid(self, form):
-        form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['feedbacks'] = Feedback.objects.iterator()
-        return context
+class FeedbacksList(ListView):
+    template_name = 'feedbacks/index.html'
+    model = Feedback

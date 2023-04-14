@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>My feedbacks</h1>
+{% extends "base.html" %}
 
-{% for feedback in feedbacks %}
-    <p>
-        {{ feedback.user }} - {{ feedback.text }} - {{ feedback.rating }}
-    </p>
-{% endfor %}
+{% block title %}Feedbacks{% endblock title %}
+{% block body_class %}feedbacks{% endblock body_class%}
 
-<div>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_div }}
-        <input type="submit" value="Save">
-    </form>
-    {% for name, error in form.errors.items %}
-        <p>{{ name.title }} {{ error }}</p>
-    {% endfor %}
-</div>
-</body>
-</html>
+{% block main %}
+    <div class="col-12 col-lg-6 offset-lg-3 py-3">
+        <h2>All feedbacks</h2>
+        <p>Сlick on the name to see 🌝</p>
+        <ul class="list-group py-3">
+            {% for feedback in object_list %}
+                <li class="list-group-item">
+                    <span class="d-flex justify-content-between" data-bs-toggle="collapse"
+                          href="#collapse{{ feedback.id }}">
+                        <span>{{ feedback.user.username }}: give {{ feedback.rating }} 💫</span>
+                        <span>{{ feedback.created_at }}</span>
+                    </span>
+                    <div class="collapse" id="collapse{{ feedback.id }}">
+                        {{ feedback.text }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock main %}
