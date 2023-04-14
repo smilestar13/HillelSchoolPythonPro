@@ -1,8 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
-from django.views.generic.edit import FormView  # Проверить работает ли без .edit
+from django.views.generic import ListView, FormView
 
 from feedbacks.forms import FeedbackModelForm
 from feedbacks.models import Feedback
