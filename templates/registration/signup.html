@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Signup</title>
-</head>
-<body>
-    <h1>Create your account!</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Registration{% endblock title %}
+{% block body_class %}registration{% endblock body_class%}
+
+{% block main %}
+    <div class="col-12 col-lg-6 offset-lg-3 py-3">
+        <h2>Create your account here!</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% include 'parts/form.html' with form=form %}
+            <input type="submit" class="btn btn-primary" value="Create">
+        </form>
+    </div>
+{% endblock main %}

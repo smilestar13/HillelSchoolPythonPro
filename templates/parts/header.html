@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">BestPlace :D</a>
+            <a class="navbar-brand" href="{% url 'main' %}">BestPlace :D</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -9,34 +9,53 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'main' %}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"></a>
-                    </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             Menu
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/products/">Products</a></li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/feedbacks/">Feedbacks</a></li>
+                            <li><a class="dropdown-item" href="{% url 'products' %}">Products</a></li>
+                            <li><a class="dropdown-item" href="{% url 'feedbacks' %}">Feedbacks</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/feedbacks/create/">Add new feedback</a></li>
+                            <li><a class="dropdown-item" href="{% url 'feedback_create' %}">Add new
+                                feedback</a></li>
                         </ul>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link disabled">Logout</a>
+                        <span class="nav-link">|</span>
                     </li>
+
+                    <li class="nav-item">
+                        {% if not user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'registration' %}">Registration</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% endif %}
+                    </li>
+
+
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Write something..."
                            aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
+                    </ul>
                 </form>
             </div>
         </div>
