@@ -27,6 +27,7 @@ class ProductsView(FormView):
         context['products'] = Product.objects.iterator()
         return context
 
+
 class ExportToCSV(View):
 
     @method_decorator(login_required)
@@ -36,7 +37,8 @@ class ExportToCSV(View):
             'Content-Disposition': 'attachment; filename="products.csv"'
         }
         response = HttpResponse(headers=headers)
-        fields_name = ['name', 'description', 'sku', 'image', 'price', 'is_active']
+        fields_name = ['name', 'description', 'sku', 'image', 'price',
+                       'is_active']
         writer = csv.DictWriter(response, fieldnames=fields_name)
         writer.writeheader()
         for product in Product.objects.iterator():
@@ -44,7 +46,8 @@ class ExportToCSV(View):
                 {
                     'name': product.name,
                     'description': product.description,
-                    'image': product.image.name if product.image else 'no image',
+                    'image': product.image.name if product.image else
+                    'no image',
                     'sku': product.sku,
                     'price': product.price,
                     'is_active': product.is_active
