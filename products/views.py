@@ -1,4 +1,5 @@
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views import View
@@ -26,10 +27,8 @@ class ProductsView(FormView):
         context['products'] = Product.objects.iterator()
         return context
 
-
-@login_required
 class ExportToCSV(View):
-
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         headers = {
             'Content-Type': 'text/csv',
@@ -53,10 +52,9 @@ class ExportToCSV(View):
         return response
 
 
-@login_required
 class ExportToPdf(TemplateView):
     template_name = 'products/pdf.html'
-
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         context = {'products': Product.objects.all()}
         headers = {
