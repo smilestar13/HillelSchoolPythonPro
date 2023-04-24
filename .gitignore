@@ -129,3 +129,5 @@ dmypy.json
 .idea/
 .venv/
 __pycache__
+/static_files/
+/media/
