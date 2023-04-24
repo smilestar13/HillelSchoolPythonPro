@@ -28,6 +28,7 @@ class ProductsView(FormView):
         return context
 
 class ExportToCSV(View):
+
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         headers = {
@@ -54,6 +55,7 @@ class ExportToCSV(View):
 
 class ExportToPdf(TemplateView):
     template_name = 'products/pdf.html'
+
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         context = {'products': Product.objects.all()}
