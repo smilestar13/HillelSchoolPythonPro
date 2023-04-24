@@ -1,15 +1,16 @@
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views import View
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 import csv
 import weasyprint
 
-from products.forms import ProductModelForm
+from products.forms import ProductModelForm, ImportCSVForm
 from products.models import Product
 
 
@@ -73,3 +74,18 @@ class ExportToPdf(TemplateView):
         pdf = weasyprint.HTML(string=html).write_pdf()
         response = HttpResponse(pdf, headers=headers)
         return response
+
+
+class ImportCSV(FormView):
+    form_class = ImportCSVForm
+    template_name = 'products/import_csv.html'
+    success_url = reverse_lazy('products')
+
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

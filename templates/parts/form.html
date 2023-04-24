@@ -14,6 +14,19 @@
                   name="{{ field.name }}"
                   {% if field.field.required %}required{% endif %}></textarea>
 
+    {% elif field.field.widget.input_type == 'file' %}
+    <div class="mb-3">
+        <label for="{{ field.id_for_label }}"
+               class="form-label">
+            {{ field.label }}
+        </label>
+        <input type="file"
+               class="form-control"
+               id="{{ field.id_for_label }}"
+               name="{{ field.name }}"
+               {% if field.field.required %}required{% endif %}
+               aria-describedby="{{ field.name }}Help">
+
     {% elif field.field.widget.input_type == 'password' %}
         <div class="mb-3">
             <label for="{{ field.id_for_label }}"
@@ -43,14 +56,15 @@
                    class="form-control"
                    id="{{ field.id_for_label }}"
                    name="{{ field.name }}"
-                   {% if field.field.required %}required{% endif %}
-                   aria-describedby="{{ field.name }}Help">
-            {% if field.help_text %}
-                <div id="{{ field.name }}Help" class="form-text">
-                    {{ field.help_text }}
-                </div>
-            {% endif %}
-        </div>
+                    {% if field.field.required %}required{% endif %}
+               aria-describedby="{{ field.name }}Help">
+        {% if field.help_text %}
+            <div id="{{ field.name }}Help" class="form-text">
+                {{ field.help_text }}
+            </div>
+        {% endif %}
+    </div>
+
     {% endif %}
     {% for error in field.errors %}
         <p class="small text-danger">{{ error }}</p>
