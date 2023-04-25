@@ -6,24 +6,21 @@
 
 {% block main %}
     <h2 class="text-center mt-3">All products</h2>
-    <div class="col-12">
-        <p>
-            <a href="{% url 'products_to_csv' %}">Export to csv</a>
-        </p>
-        <p>
-            <a href="{% url 'products_to_pdf' %}">Export to pdf</a>
-        </p>
-
+    <div class="text-center py-3">
+        <a href="{% url 'products_to_csv' %}" class="btn btn-primary">Export to csv</a>
+        <a href="{% url 'products_to_pdf' %}" class="btn btn-primary">Export to pdf</a>
+    </div>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-3">
         {% for product in products %}
             <div class="col d-flex">
                 <div class="card flex-fill">
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top img-fluid d-block" alt="..."
+                        <img src="{{ product.image.url }}" class="card-img-top img-fluid d-block p-3" alt="product"
                              style="max-height: 200px; object-fit: contain;">
                     {% else %}
-                        <img src="{% static "images/logo-design.png" %}" class="card-img-top img-fluid d-block" alt="product"
+                        <img src="{% static "images/no-images.png" %}" class="card-img-top img-fluid d-block p-3"
+                             alt="product"
                              style="max-height: 200px; object-fit: contain;">
 
                     {% endif %}
@@ -32,6 +29,27 @@
                         <h5 class="card-title">{{ product.name }}</h5>
                         <p class="card-text">{{ product.description|truncatewords:35 }}</p>
                         <p class="card-price">{{ product.price }}$</p>
+                        {% if product.products.exists %}
+                            <p>Including:</p>
+                            {% for sub in product.products.iterator %}
+                                <div class="d-inline-flex flex-column rounded border p-2 m-1 sub-product">
+                                    <p>{{ sub.name }}</p>
+                                    {% if sub.image %}
+                                        <figure class="text-center d-inline">
+                                            <img src="{{ sub.image.url }}"
+                                                 class="product-img p-1"
+                                                 alt="{{ product.name }}">
+                                        </figure>
+                                    {% else %}
+                                        <figure class="text-center d-inline">
+                                            <img src="{% static "images/no-images.png" %}"
+                                                 class="product-img p-1"
+                                                 alt="{{ product.name }}">
+                                        </figure>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                         <a href="#" class="btn btn-success mt-auto">Buy it now!</a>
                     </div>
                 </div>

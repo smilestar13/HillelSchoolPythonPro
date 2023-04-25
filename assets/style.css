@@ -1,2 +1,5 @@
 .logo {width: 120px;
 }
+.sub-product .product-img{
+    max-width: 80px;
+}
