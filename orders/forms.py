@@ -79,5 +79,10 @@ class CartActionForm(forms.Form):
             self.instance.save(update_fields=('is_active', 'is_paid'))
 
         if action == 'remove':
-            item_id = self.cleaned_data['item_id']
-            OrderItem.objects.filter(id=item_id).delete()
+            product = self.cleaned_data['product_id']
+            OrderItem.objects.filter(order=self.instance, product=product).delete()
+
+        if action == 'clear':
+            OrderItem.objects.filter(order=self.instance).delete()
+
+

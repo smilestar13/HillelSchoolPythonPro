@@ -50,7 +50,6 @@
                                         class="btn btn-danger btn-sm">
                                     Remove
                                 </button>
-                            </td>
                         </tr>
                     {% endfor %}
                     <tr>
@@ -79,14 +78,22 @@
                                    value="Recalculate"></td>
                     </tr>
                 </table>
-
-
             </form>
-            <form method="post" action="{% url 'order_action' 'pay' %}">
-                {% csrf_token %}
-                <input type="submit" value="Pay order"
-                       class="btn btn-success w-100">
-            </form>
+            <div class="row">
+                <div class="col">
+                    <form method="post" action="{% url 'order_action' 'clear' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Clear order" class="btn btn-danger w-100">
+                    </form>
+                </div>
+                <div class="col">
+                    <form method="post" action="{% url 'order_action' 'pay' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Pay order" class="btn btn-success w-100">
+                    </form>
+                </div>
+            </div>
+
             {% if form.errors %}
                 <div class="mb-2">
                     <ul>
