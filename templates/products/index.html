@@ -50,7 +50,13 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
-                        <a href="#" class="btn btn-success mt-auto">Buy it now!</a>
+                        <form method="post" action="{% url 'order_action' 'add' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id"
+                                   value="{{ product.id }}">
+                            <input type="submit" value="Add to cart"
+                                   class="btn btn-success w-100">
+                        </form>
                     </div>
                 </div>
             </div>
