@@ -18,7 +18,7 @@
                                 {% for i in "x"|ljust:feedback.rating %}★{% endfor %}
                             </span>
                         </span>
-                        <span>{{ feedback.created_at }}</span>
+                        <span>{{ feedback.created_at|date:"d M Y" }}</span>
                     </span>
                     <div class="collapse" id="collapse{{ feedback.id }}">
                         {{ feedback.text }}
