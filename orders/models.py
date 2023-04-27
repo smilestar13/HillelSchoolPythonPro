@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import Sum, F
 from django.utils import timezone
-from django_lifecycle import hook, AFTER_UPDATE, LifecycleModelMixin, AFTER_SAVE
+from django_lifecycle import hook, AFTER_UPDATE, LifecycleModelMixin, \
+    AFTER_SAVE
 
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin

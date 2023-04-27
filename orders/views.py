@@ -3,8 +3,10 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, RedirectView
 
-from orders.mixins import GetCurrentOrderMixin  # импорт пользовательского миксина для получения текущего заказа
-from orders.forms import CartForm, CartActionForm  # импорт форм для работы с корзиной покупок
+# импорт пользовательского миксина для получения текущего заказа
+from orders.mixins import GetCurrentOrderMixin
+# импорт форм для работы с корзиной покупок
+from orders.forms import CartForm, CartActionForm
 
 
 class CartView(GetCurrentOrderMixin, FormView):
@@ -24,14 +26,16 @@ class CartView(GetCurrentOrderMixin, FormView):
         order = self.get_object()
         context.update({
             'order': order,
-            'order_items': order.order_items.all()  # добавление списка товаров в контекст
+            # добавление списка товаров в контекст
+            'order_items': order.order_items.all()
         })
         return context
 
     def get_form_kwargs(self):
         """Метод для получения аргументов формы"""
         kwargs = super().get_form_kwargs()
-        kwargs.update({'instance': self.get_object()})  # добавление текущего заказа в аргументы формы
+        # добавление текущего заказа в аргументы формы
+        kwargs.update({'instance': self.get_object()})
         return kwargs
 
     def form_valid(self, form):
