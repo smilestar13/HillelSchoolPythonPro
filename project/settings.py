@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # external packages
+    'django_celery_results',
     'widget_tweaks',
     # internal packages
     'products',
@@ -146,3 +147,7 @@ STATICFILES_DIRS = ['assets']
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_EAGER=False

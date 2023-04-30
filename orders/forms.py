@@ -84,5 +84,3 @@ class CartActionForm(forms.Form):
 
         if action == 'clear':
             OrderItem.objects.filter(order=self.instance).delete()
-
-

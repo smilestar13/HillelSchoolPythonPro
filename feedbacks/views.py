@@ -4,6 +4,7 @@ from django.views.generic import ListView, FormView
 
 from feedbacks.forms import FeedbackModelForm
 from feedbacks.models import Feedback
+from project.celery import debug_task
 
 
 class FeedbacksView(FormView):
@@ -23,6 +24,10 @@ class FeedbacksView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        debug_task.delay()
+        return super().post(request, *args, **kwargs)
 
 
 class FeedbacksList(ListView):
