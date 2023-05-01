@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 
-{% block title %}Products{% endblock title %}
-{% block body_class %}products{% endblock body_class %}
+{% block title %}Кошик{% endblock title %}
+{% block body_class %}cart{% endblock body_class %}
 
 {% block main %}
     <div class="col-12 my-3 my-lg-5">
         {% if order_items %}
-            <h2>Your cart.</h2>
+            <h2>Ваш кошик.</h2>
             <form method="post">
                 {% csrf_token %}
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Subtotal</th>
-                        <th scope="col">Delete</th>
+                        <th scope="col">Назва продукту</th>
+                        <th scope="col">Кількість</th>
+                        <th scope="col">Ціна за одиницю</th>
+                        <th scope="col">Вартість</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,19 +45,21 @@
                                 {{ item.sub_total }}
                             </td>
                             <td class="col-2">
-                                <button type="submit" name="remove"
-                                        value="{{ item.id }}"
-                                        class="btn btn-danger btn-sm">
-                                    Remove
-                                </button>
+                                <form method="post" action="{% url 'order_action' 'remove' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id"
+                                           value="{{ item.product.id }}">
+                                    <input type="submit" value="Видалити"
+                                           class="btn btn-danger w-100">
+                                </form>
                         </tr>
                     {% endfor %}
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>Total: <span
-                                class="small">(including discount)</span></td>
+                        <td>До сплати: <span
+                                class="small">(враховуючи знижки)</span></td>
                         <td>{{ order.total_amount }}</td>
                     </tr>
                     </tbody>
@@ -65,31 +67,30 @@
                         <td></td>
                         <td></td>
                         {% if not order.discount %}
-                            <td><label for="id_discount">Have a discount code?
-                                Please enter
-                                here.</label></td>
+                            <td><label for="id_discount">Маєте код для знижки?
+                                Застосуйте його тут.</label></td>
                             <td><input class="form-control" id="id_discount"
                                        type="text"
                                        name="discount"></td>
                         {% else %}
-                            <td colspan="2">You already applied discount.</td>
+                            <td colspan="2">Ви вже активували знижку.</td>
                         {% endif %}
                         <td><input type="submit" class="btn btn-warning"
-                                   value="Recalculate"></td>
+                                   value="Перерахувати"></td>
                     </tr>
                 </table>
             </form>
             <div class="row">
-                <div class="col">
+                <div class="col-3">
                     <form method="post" action="{% url 'order_action' 'clear' %}">
                         {% csrf_token %}
-                        <input type="submit" value="Clear order" class="btn btn-danger w-100">
+                        <input type="submit" value="Очистити кошик" class="btn btn-danger w-100">
                     </form>
                 </div>
-                <div class="col">
+                <div class="col-9">
                     <form method="post" action="{% url 'order_action' 'pay' %}">
                         {% csrf_token %}
-                        <input type="submit" value="Pay order" class="btn btn-success w-100">
+                        <input type="submit" value="Оформити замовлення" class="btn btn-success w-100">
                     </form>
                 </div>
             </div>
@@ -113,8 +114,8 @@
                 </div>
             {% endif %}
         {% else %}
-            <h2>Your cart is empty.</h2>
-            <p><a href="{% url 'products' %}">Add to cart.</a></p>
+            <h2>Ваш кошик ще порожній.</h2>
+            <p><a href="{% url 'products' %}">Додати товар.</a></p>
         {% endif %}
     </div>
 {% endblock main %}

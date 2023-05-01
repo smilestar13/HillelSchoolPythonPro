@@ -23,6 +23,8 @@ from feedbacks.urls import urlpatterns as feedbacks_urlpatterns
 from accounts.urls import urlpatterns as accounts_urlpatterns
 from main.urls import urlpatterns as main_urlpatterns
 from orders.urls import urlpatterns as orders_urlpatterns
+from wishes.urls import urlpatterns as wishes_urlpatterns
+
 
 
 urlpatterns = [
@@ -32,6 +34,7 @@ urlpatterns = [
     path('accounts/', include(accounts_urlpatterns)),
     path('', include(main_urlpatterns)),
     path('', include(orders_urlpatterns)),
+    path('', include(wishes_urlpatterns)),
 ]
 
 if settings.DEBUG:

@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'feedbacks',
     'accounts',
     'main',
-    'tracking'
+    'tracking',
+    'wishes'
 ]
 
 MIDDLEWARE = [
