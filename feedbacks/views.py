@@ -25,7 +25,7 @@ class FeedbacksView(FormView):
         form.save()
         return super().form_valid(form)
 
-    def post(self, request, *args, **kwargs):  #Тестовый таск с урока - снести
+    def post(self, request, *args, **kwargs):  # Тестовый таск с урока - снести
         debug_task.delay()
         return super().post(request, *args, **kwargs)
 

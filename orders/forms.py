@@ -80,7 +80,8 @@ class CartActionForm(forms.Form):
 
         if action == 'remove':
             product = self.cleaned_data['product_id']
-            OrderItem.objects.filter(order=self.instance, product=product).delete()
+            OrderItem.objects.filter(order=self.instance,
+                                     product=product).delete()
 
         if action == 'clear':
             OrderItem.objects.filter(order=self.instance).delete()

@@ -77,7 +77,8 @@ class WishActionForm(forms.Form):
 
         if action == 'remove':
             product = self.cleaned_data['product_id']
-            WishListItem.objects.filter(wish_list=self.instance, product=product).delete()
+            WishListItem.objects.filter(wish_list=self.instance,
+                                        product=product).delete()
 
         if action == 'clear':
             WishListItem.objects.filter(wish_list=self.instance).delete()

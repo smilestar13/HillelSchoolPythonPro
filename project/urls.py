@@ -26,7 +26,6 @@ from orders.urls import urlpatterns as orders_urlpatterns
 from wishes.urls import urlpatterns as wishes_urlpatterns
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', include(products_urlpatterns)),
