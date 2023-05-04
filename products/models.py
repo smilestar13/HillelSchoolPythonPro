@@ -7,6 +7,8 @@ from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
 from django.utils.safestring import mark_safe
 
+from project.model_choices import Currencies
+
 
 def upload_to(instance, filename):
     _name, extension = path.splitext(filename)
@@ -52,7 +54,11 @@ class Product(PKMixin):
         decimal_places=DECIMAL_PLACES)
     categories = models.ManyToManyField(Category, blank=True)
     products = models.ManyToManyField("products.Product", blank=True)
-
+    currency = models.CharField(
+        max_length=16,
+        choices=Currencies.choices,
+        default=Currencies.UAH
+    )
     def image_tag(self):
         if self.image:
             return mark_safe('<img src="%s" style="max-height: 100px;" />' % self.image.url) # noqa
