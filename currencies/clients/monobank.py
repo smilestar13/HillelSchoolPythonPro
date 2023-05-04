@@ -36,7 +36,8 @@ class MonoBank(APIBaseClient):
                             'sale': i['rateSell'],
                             'bank_name': 'MonoBank'
                         })
-                    elif i['currencyCodeA'] == 978 and i['currencyCodeB'] == 980:
+                    elif i['currencyCodeA'] == 978 \
+                            and i['currencyCodeB'] == 980:
                         results.append({
                             'code': 'EUR',
                             'buy': i['rateBuy'],

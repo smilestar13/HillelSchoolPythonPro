@@ -59,6 +59,7 @@ class Product(PKMixin):
         choices=Currencies.choices,
         default=Currencies.UAH
     )
+
     def image_tag(self):
         if self.image:
             return mark_safe('<img src="%s" style="max-height: 100px;" />' % self.image.url) # noqa

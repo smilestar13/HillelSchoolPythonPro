@@ -28,10 +28,12 @@ class CurrencyHistory(PKMixin):
     )
 
     def __str__(self):
-        return f"{self.code} - {self.buy} / {self.sale} ({self.bank_name}) - {self.created_at.strftime('%H:%M [%d.%m.%Y]')}"
+        return f"{self.code} - {self.buy} / {self.sale} " \
+               f"({self.bank_name}) - " \
+               f"{self.created_at.strftime('%H:%M [%d.%m.%Y]')}"
 
     @staticmethod
     def get_usd_rate():
-        usd_history = CurrencyHistory.objects.filter(code=Currencies.USD).latest('created_at')
+        usd_history = CurrencyHistory.objects.filter(code=Currencies.USD).latest('created_at')  # noqa
         usd_rate = usd_history.sale
         return usd_rate

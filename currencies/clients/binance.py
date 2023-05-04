@@ -12,7 +12,8 @@ class BinanceCrypto(APIBaseClient):
             {"symbol":"ETHUSDT","price":"1905.35000000"},
             ...
         ]
-        [{'code': 'BTCUSDT', "price":"29198.29000000","price":"29198.29000000"},]
+        [{'code': 'BTCUSDT', "price":"29198.29000000",
+        "price":"29198.29000000"},]
         :return: dict
         """
 
