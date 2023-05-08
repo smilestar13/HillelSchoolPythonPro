@@ -26,6 +26,7 @@ class FeedbacksView(FormView):
         form.save()
         return super().form_valid(form)
 
+
 class FeedbacksList(ListView):
     template_name = 'feedbacks/index.html'
     model = Feedback

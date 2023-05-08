@@ -3,7 +3,8 @@ from os import path
 from django.core.cache import cache
 from django.db import models
 from django.core.validators import MinValueValidator
-from django_lifecycle import LifecycleModelMixin, hook, AFTER_UPDATE, AFTER_CREATE
+from django_lifecycle import LifecycleModelMixin, hook, AFTER_UPDATE, \
+    AFTER_CREATE
 
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
@@ -41,7 +42,7 @@ class Category(PKMixin):
         verbose_name_plural = "Categories"
 
 
-class Product(LifecycleModelMixin ,PKMixin):
+class Product(LifecycleModelMixin, PKMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(
         blank=True,
