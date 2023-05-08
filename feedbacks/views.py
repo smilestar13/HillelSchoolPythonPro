@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, FormView
 
 from feedbacks.forms import FeedbackModelForm
 from feedbacks.models import Feedback
-from project.celery import debug_task
+from project.model_choices import FeedbackCacheKeys
 
 
 class FeedbacksView(FormView):
@@ -25,11 +26,21 @@ class FeedbacksView(FormView):
         form.save()
         return super().form_valid(form)
 
-    def post(self, request, *args, **kwargs):  # Тестовый таск с урока - снести
-        debug_task.delay()
-        return super().post(request, *args, **kwargs)
-
-
 class FeedbacksList(ListView):
     template_name = 'feedbacks/index.html'
     model = Feedback
+
+    def get_queryset(self):
+        queryset = cache.get(FeedbackCacheKeys.FEEDBACKS)
+        if not queryset:
+            print('TO CACHE')
+            queryset = Feedback.objects.all()
+            cache.set(FeedbackCacheKeys.FEEDBACKS, queryset)
+
+        ordering = self.get_ordering()
+        if ordering:
+            if isinstance(ordering, str):
+                ordering = (ordering,)
+            queryset = queryset.order_by(*ordering)
+
+        return queryset

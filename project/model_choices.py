@@ -12,3 +12,11 @@ class Currencies(TextChoices):
     EUR = 'EUR', 'EUR'
     BTC = 'BTCUSDT', 'BTC'
     ETH = 'ETHUSDT', 'ETH'
+
+
+class ProductCacheKeys(TextChoices):
+    PRODUCTS = 'products', 'Products all'
+
+
+class FeedbackCacheKeys(TextChoices):
+    FEEDBACKS = 'feedbacks', 'Feedbacks all'

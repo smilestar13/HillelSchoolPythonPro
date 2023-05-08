@@ -1,13 +1,15 @@
 from os import path
 
+from django.core.cache import cache
 from django.db import models
 from django.core.validators import MinValueValidator
+from django_lifecycle import LifecycleModelMixin, hook, AFTER_UPDATE, AFTER_CREATE
 
 from project.constants import MAX_DIGITS, DECIMAL_PLACES
 from project.mixins.models import PKMixin
 from django.utils.safestring import mark_safe
 
-from project.model_choices import Currencies
+from project.model_choices import Currencies, ProductCacheKeys
 
 
 def upload_to(instance, filename):
@@ -39,7 +41,7 @@ class Category(PKMixin):
         verbose_name_plural = "Categories"
 
 
-class Product(PKMixin):
+class Product(LifecycleModelMixin ,PKMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(
         blank=True,
@@ -70,3 +72,8 @@ class Product(PKMixin):
 
     def __str__(self):
         return f"Name = {self.name.title()} | Price = {self.price} UAH"
+
+    @hook(AFTER_CREATE)
+    @hook(AFTER_UPDATE)
+    def after_signal(self):
+        cache.delete(ProductCacheKeys.PRODUCTS)
