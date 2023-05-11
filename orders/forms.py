@@ -51,21 +51,28 @@ class CartForm(forms.Form):
 
 class CartActionForm(forms.Form):
     product_id = forms.UUIDField(required=False)
+    order_item_id = forms.UUIDField(required=False)
 
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.pop('instance')
         super().__init__(*args, **kwargs)
 
     def clean_product_id(self):
-        """Проверка идентификатора товара"""
         if self.cleaned_data['product_id']:
             try:
                 return Product.objects.get(id=self.cleaned_data['product_id'])
             except Product.DoesNotExist:
                 raise ValidationError('Wrong product id.')
 
+    def clean_order_item_id(self):
+        if self.cleaned_data.get('order_item_id') and \
+                not self.instance.order_items.filter(
+                    id=self.cleaned_data['order_item_id']
+                ).exists():
+            raise ValidationError('Wrong item id.')
+        return self.cleaned_data['order_item_id']
+
     def action(self, action):
-        """Выполнение действий в корзине покупок"""
         if action == 'add':
             product = self.cleaned_data['product_id']
             OrderItem.objects.get_or_create(
@@ -79,9 +86,8 @@ class CartActionForm(forms.Form):
             self.instance.save(update_fields=('is_active', 'is_paid'))
 
         if action == 'remove':
-            product = self.cleaned_data['product_id']
-            OrderItem.objects.filter(order=self.instance,
-                                     product=product).delete()
-
+            OrderItem.objects.filter(
+                id=self.cleaned_data['order_item_id']
+            ).delete()
         if action == 'clear':
-            OrderItem.objects.filter(order=self.instance).delete()
+            self.instance.order_items.all().delete()
