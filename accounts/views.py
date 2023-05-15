@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
+from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as AuthLoginView
 from django.utils.decorators import method_decorator
@@ -48,9 +49,6 @@ class ProfileView(View):
         return render(request, self.template_name, {'user': user})
 
 
-import time
-from django.core.cache import cache
-
 class UpdatePhoneView(View):
     template_name = 'registration/update_phone.html'
 
@@ -62,8 +60,10 @@ class UpdatePhoneView(View):
         confirmation_code = cache.get('confirmation_code')
         current_time = int(time.time())
 
-        if not confirmation_code or (current_time - cache.get('code_generated_time', 0)) >= 60:
-            confirmation_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        if not confirmation_code or \
+                (current_time - cache.get('code_generated_time', 0)) >= 60:
+            confirmation_code = ''.join(random.choices(
+                string.ascii_uppercase + string.digits, k=6))
             cache.set('confirmation_code', confirmation_code, 60)
             cache.set('code_generated_time', current_time, 60)
 
@@ -90,4 +90,3 @@ class UpdatePhoneView(View):
                 'error_message': 'Invalid confirmation code. Please try again.'
             }
             return render(request, self.template_name, context)
-
