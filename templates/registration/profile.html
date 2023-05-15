@@ -2,9 +2,9 @@
 
 {% block main %}
     <h2>Your profile</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Second name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Phone Number: {{ user.phone }}</p>
+    <a href="{% url 'update_phone' %}">Update Phone Number</a>
 {% endblock main %}

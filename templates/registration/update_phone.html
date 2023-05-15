@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Update Phone Number</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="phone_number" placeholder="New Phone Number" required>
+        <button type="submit">Update</button>
+    </form>
+{% endblock main %}
