@@ -4,7 +4,12 @@
     <h2>Update Phone Number</h2>
     <form method="post">
         {% csrf_token %}
-        <input type="text" name="phone_number" placeholder="New Phone Number" required>
+        <input type="text" name="phone" placeholder="New Phone Number" required>
+        <input type="text" name="code" placeholder="Enter confirmation code" required>
+        <p>{{ confirmation_code }}</p>
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% endif %}
         <button type="submit">Update</button>
     </form>
 {% endblock main %}
