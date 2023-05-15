@@ -7,7 +7,8 @@ from django.views.generic import FormView
 from django.shortcuts import render, redirect
 from django.views import View
 
-from accounts.model_forms import RegistrationForm, AuthenticationForm, UserProfileForm
+from accounts.model_forms import RegistrationForm, AuthenticationForm, \
+    UserProfileForm
 
 
 class RegistrationView(FormView):

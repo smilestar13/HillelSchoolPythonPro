@@ -66,8 +66,11 @@ class CartActionView(GetCurrentOrderMixin, RedirectView):
                 messages.success(self.request, _('Order has been paid!'))
             elif action == 'remove':
                 form.action(action)
-                messages.add_message(self.request, messages.SUCCESS, _('Item removed.'), extra_tags='danger')
+                messages.add_message(self.request, messages.SUCCESS,
+                                     _('Item removed.'), extra_tags='danger')
             elif action == 'clear':
                 form.action(action)
-                messages.add_message(self.request, messages.SUCCESS, _('The order has been cleared.'), extra_tags='danger')
+                messages.add_message(self.request, messages.SUCCESS,
+                                     _('The order has been cleared.'),
+                                     extra_tags='danger')
         return self.get(request, *args, **kwargs)
