@@ -67,6 +67,11 @@
                             <a class="nav-link active" aria-current="page" href="{% url 'favourites' %}"
                                style="display: inline-block; vertical-align: middle;">Wishes</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                               href="{% url 'profile' %}">{% translate 'Profile' %}</a>
+                        </li>
+
                         <li>
                             <form action="{% url 'set_language' %}"
                                   method="post">

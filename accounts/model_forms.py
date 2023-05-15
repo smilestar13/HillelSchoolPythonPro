@@ -1,6 +1,10 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, \
+    AuthenticationForm as AuthAuthenticationForm
 from django.core.exceptions import ValidationError
+from django.utils.text import capfirst
+from django.utils.translation import gettext_lazy as _
+from django import forms
 
 User = get_user_model()
 
@@ -30,3 +34,17 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class AuthenticationForm(AuthAuthenticationForm):
+
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(request=request, *args, **kwargs)
+        self.fields["username"].label = _(
+            f'{capfirst(self.username_field.verbose_name)} or Phone number')
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'phone']

@@ -2,6 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, RedirectView
+from django.utils.translation import gettext_lazy as _
+from django.contrib import messages
+
 
 # импорт пользовательского миксина для получения текущего заказа
 from orders.mixins import GetCurrentOrderMixin
@@ -54,5 +57,17 @@ class CartActionView(GetCurrentOrderMixin, RedirectView):
         """Метод для обработки POST-запросов"""
         form = CartActionForm(request.POST, instance=self.get_object())
         if form.is_valid():
-            form.action(kwargs.get('action'))
+            action = kwargs.get('action')
+            if action == 'add':
+                form.action(action)
+                messages.success(self.request, _('New item added in cart!'))
+            elif action == 'pay':
+                form.action(action)
+                messages.success(self.request, _('Order has been paid!'))
+            elif action == 'remove':
+                form.action(action)
+                messages.add_message(self.request, messages.SUCCESS, _('Item removed.'), extra_tags='danger')
+            elif action == 'clear':
+                form.action(action)
+                messages.add_message(self.request, messages.SUCCESS, _('The order has been cleared.'), extra_tags='danger')
         return self.get(request, *args, **kwargs)
