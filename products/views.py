@@ -24,7 +24,8 @@ class ProductsView(ListView):
         queryset = cache.get(ProductCacheKeys.PRODUCTS)
         if not queryset:
             print('TO CACHE')
-            queryset = Product.objects.prefetch_related('categories', 'products').all()
+            queryset = Product.objects.prefetch_related(
+                'categories', 'products').all()
             cache.set(ProductCacheKeys.PRODUCTS, queryset)
 
         ordering = self.get_ordering()
@@ -159,6 +160,6 @@ class ProductByCategory(ListView):
         :return:
         """
         qs = super().get_queryset()
-        qs = qs.filter(categories=self.category,)
+        qs = qs.filter(categories=self.category, )
         qs = qs.prefetch_related('products', 'categories', )
         return qs

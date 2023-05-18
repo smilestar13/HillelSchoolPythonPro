@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, FormView
 
 from main.forms import ContactForm
-from main.models import Config
 
 
 class MainView(TemplateView):
@@ -19,6 +18,5 @@ class ContactView(FormView):
     def form_valid(self, form):
         msg = f'FROM: ' \
               f'{form.cleaned_data["email"]}\n{form.cleaned_data["text"]}'
-        contact_email = Config.objects.first().contact_form_email
-        mail_admins(_('Contact form'), msg, '', [contact_email])
+        mail_admins(_('Contact form'), msg)
         return super().form_valid(form)
