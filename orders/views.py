@@ -30,7 +30,7 @@ class CartView(GetCurrentOrderMixin, FormView):
         context.update({
             'order': order,
             # добавление списка товаров в контекст
-            'order_items': order.order_items.all()
+            'order_items': order.order_items.select_related('product').all()
         })
         return context
 

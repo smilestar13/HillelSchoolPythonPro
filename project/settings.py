@@ -34,8 +34,20 @@ SECRET_KEY = env.str('SECRET_KEY', default='SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ADMINS = (('Admin', 'oleksienko.boris@gmail.com'), )
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env.str('EMAIL_HOST', default='EMAIL_HOST')
+EMAIL_PORT = env.str('EMAIL_PORT', default='EMAIL_PORT')
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD',
+                              default='EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_SUBJECT_PREFIX = 'Shop - '
 
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ENABLE_SILK = env.bool('ENABLE_SILK', default=False)
 
 # Application definition
 
@@ -63,6 +75,10 @@ INSTALLED_APPS = [
     'rosetta'
 ]
 
+if DEBUG:
+    INSTALLED_APPS.append('silk')
+    INSTALLED_APPS.append("debug_toolbar")
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -73,6 +89,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'project.middlewares.TrackingMiddleware',
     'django.middleware.locale.LocaleMiddleware'
+]
+
+if DEBUG:
+    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -88,6 +113,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'project.context_processors.slug_categories'
             ],
         },
     },
@@ -145,6 +171,8 @@ LANGUAGES = [
 LOCALE_PATHS = [
     BASE_DIR / "locale"
 ]
+
+APPEND_SLASH = True
 
 TIME_ZONE = 'Europe/Kiev'
 
