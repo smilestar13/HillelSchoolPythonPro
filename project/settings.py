@@ -47,7 +47,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_SUBJECT_PREFIX = 'Shop - '
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
-ENABLE_SILK = env.bool('ENABLE_SILK', default=False)
+# ENABLE_SILK = env.bool('ENABLE_SILK', default=False)
 
 # Application definition
 
@@ -75,9 +75,9 @@ INSTALLED_APPS = [
     'rosetta'
 ]
 
-if DEBUG:
-    INSTALLED_APPS.append('silk')
-    INSTALLED_APPS.append("debug_toolbar")
+# if DEBUG:
+#     INSTALLED_APPS.append('silk')
+#     INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,9 +91,9 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware'
 ]
 
-if DEBUG:
-    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+# if DEBUG:
+#     MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
+#     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 
 INTERNAL_IPS = [
