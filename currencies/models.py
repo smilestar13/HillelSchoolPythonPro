@@ -24,7 +24,7 @@ class CurrencyHistory(PKMixin):
     bank_name = models.CharField(
         max_length=16,
         choices=Currencies.choices,
-        default=None
+        default='None'
     )
 
     def __str__(self):
