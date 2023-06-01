@@ -47,6 +47,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_SUBJECT_PREFIX = 'Shop - '
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
 # ENABLE_SILK = env.bool('ENABLE_SILK', default=False)
 
 # Application definition
@@ -199,7 +200,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_TASK_EAGER = False
+CELERY_TASK_EAGER = True
 
 CELERY_BEAT_SCHEDULE = {
     'Get currencies': {
