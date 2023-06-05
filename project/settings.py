@@ -88,7 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'project.middlewares.TrackingMiddleware',
+    # 'project.middlewares.TrackingMiddleware',
     'django.middleware.locale.LocaleMiddleware'
 ]
 
@@ -200,7 +200,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_TASK_EAGER = True
 
 CELERY_BEAT_SCHEDULE = {
     'Get currencies': {
@@ -215,3 +214,8 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379",
     }
 }
+
+try:
+    from project.settings_local import *  # noqa
+except ImportError:
+    ...

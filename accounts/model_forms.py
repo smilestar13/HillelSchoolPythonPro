@@ -4,6 +4,12 @@ from django.contrib.auth.forms import UserCreationForm, \
 from django.core.exceptions import ValidationError
 from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes
+
+from accounts.tasks import send_registration_email
 
 User = get_user_model()
 
@@ -20,12 +26,47 @@ class RegistrationForm(UserCreationForm):
             return self.cleaned_data['email']
         raise ValidationError('User already exist.')
 
-    # def save(self, commit=True):
-    #     user = super().save(commit=False)
-    #     user.set_password(self.cleaned_data["password1"])
-    #     if commit:
-    #         user.save()
-    #     return user
+    def save(self,
+             domain_override=None,
+             email_template_name="registration/registration_email.html",
+             use_https=False,
+             token_generator=default_token_generator,
+             from_email=None,
+             request=None,
+             html_email_template_name=None,
+             extra_email_context=None,
+             commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        user.is_active = False
+        if commit:
+            user.save()
+            if hasattr(self, "save_m2m"):
+                self.save_m2m()
+
+        user_email = user.email
+        if not domain_override:
+            current_site = get_current_site(request)
+            site_name = current_site.name
+            domain = current_site.domain
+        else:
+            site_name = domain = domain_override
+        context = {
+            "domain": domain,
+            "site_name": site_name,
+            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+            "token": token_generator.make_token(user),
+            "protocol": "https" if use_https else "http",
+            **(extra_email_context or {}),
+        }
+        send_registration_email.delay(
+            email_template_name,
+            context,
+            from_email,
+            user_email,
+            html_email_template_name
+        )
+        return user
 
 
 class AuthenticationForm(AuthAuthenticationForm):
