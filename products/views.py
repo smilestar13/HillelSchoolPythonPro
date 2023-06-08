@@ -10,15 +10,21 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 import csv
 import weasyprint
+from django_filters.views import FilterView
 
+from products.filters import ProductFilter
 from products.forms import ImportCSVForm
 from products.models import Product, Category
 from project.model_choices import ProductCacheKeys
 
 
-class ProductsView(ListView):
+class ProductsView(FilterView):
+    template_name = 'products/product_list.html'
     context_object_name = 'products'
     model = Product
+    ordering = '-created_at'
+    paginate_by = 3
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         queryset = cache.get(ProductCacheKeys.PRODUCTS)

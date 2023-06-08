@@ -11,8 +11,22 @@
         <a href="{% url 'products_to_csv' %}" class="btn btn-primary">Export to csv</a>
         <a href="{% url 'products_to_pdf' %}" class="btn btn-primary">Export to pdf</a>
     </div>
+    <form method="get" action="{% url 'products' %}" class="mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="price_from">Price From:</label>
+                <input type="text" id="price_from" name="price_min" class="form-control" placeholder="Enter price">
+            </div>
+            <div class="col-md-4">
+                <label for="price_to">Price To:</label>
+                <input type="text" id="price_to" name="price_max" class="form-control" placeholder="Enter price">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary mt-4">Filter</button>
+            </div>
+        </div>
+    </form>
     <div class="row row-cols-1 row-cols-md-3 g-3">
-
         {% for product in products %}
             <div class="col d-flex">
                 <div class="card flex-fill">
@@ -79,4 +93,7 @@
             </div>
         {% endfor %}
     </div>
+    {% if products %}
+        {% include 'parts/paginator.html' %}
+    {% endif %}
 {% endblock main %}
