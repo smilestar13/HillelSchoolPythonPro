@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_extensions',
     'django_filters',
+    'rest_framework',
     # internal packages
     'products',
     'orders',

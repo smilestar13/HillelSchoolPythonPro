@@ -25,6 +25,7 @@ from accounts.urls import urlpatterns as accounts_urlpatterns
 from main.urls import urlpatterns as main_urlpatterns
 from orders.urls import urlpatterns as orders_urlpatterns
 from wishes.urls import urlpatterns as wishes_urlpatterns
+from apis.products.urls import urlpatterns as api_products_urlpatterns
 
 
 i18n_urlpatterns = [
@@ -36,9 +37,14 @@ i18n_urlpatterns = [
     path('', include(wishes_urlpatterns)),
 ]
 
+api_urlpatterns = [
+    *api_products_urlpatterns
+]
+
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
+    path("api/v1/", include(api_urlpatterns))
 
 ]
 
