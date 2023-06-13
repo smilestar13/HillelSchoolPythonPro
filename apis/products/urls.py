@@ -1,9 +1,11 @@
 from django.urls import path
 
-from apis.products.views import ProductList
+from apis.products.views import ProductList, ProductDetail
 
 urlpatterns = [
     path('products/', ProductList.as_view()),
+    path('products/<uuid:pk>/detail/', ProductDetail.as_view()),
+
 ]
 
 """

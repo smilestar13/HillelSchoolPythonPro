@@ -13,3 +13,15 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     def get_category_name(self, obj):
         return obj.categories.values_list('name', flat=True)
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+    category_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'price', 'sku', 'created_at', 'updated_at',
+                  'description', 'image', 'categories', 'category_name')
+
+    def get_category_name(self, obj):
+        return obj.categories.values_list('name', flat=True)
