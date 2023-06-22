@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.db import models
 from django.core.validators import MinValueValidator
@@ -103,3 +104,19 @@ class Product(LifecycleModelMixin, PKMixin):
     def delete(self, *args, **kwargs):
         self.image.delete()
         super().delete(*args, **kwargs)
+
+
+class FavouriteProduct(PKMixin):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='favourites'
+    )
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='favourite_products'
+    )
+
+    class Meta:
+        unique_together = ('product', 'user')

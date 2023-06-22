@@ -5,16 +5,19 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views import View
-from django.http import HttpResponse, Http404
+from django.db.models import OuterRef, Exists
+from django.http import HttpResponse, Http404, HttpResponseRedirect, \
+    JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 import csv
 import weasyprint
 from django_filters.views import FilterView
+from project.decorators import ajax_required
 
 from products.filters import ProductFilter
 from products.forms import ImportCSVForm
-from products.models import Product, Category
+from products.models import Product, Category, FavouriteProduct
 from project.model_choices import ProductCacheKeys
 
 
@@ -23,15 +26,14 @@ class ProductsView(FilterView):
     context_object_name = 'products'
     model = Product
     ordering = '-created_at'
-    paginate_by = 3
+    paginate_by = 6
     filterset_class = ProductFilter
 
     def get_queryset(self):
         queryset = cache.get(ProductCacheKeys.PRODUCTS)
         if not queryset:
-            print('TO CACHE')
-            queryset = Product.objects.prefetch_related(
-                'categories', 'products').all()
+            queryset = Product.objects.prefetch_related('categories',
+                                                        'products').all()
             cache.set(ProductCacheKeys.PRODUCTS, queryset)
 
         ordering = self.get_ordering()
@@ -39,7 +41,13 @@ class ProductsView(FilterView):
             if isinstance(ordering, str):
                 ordering = (ordering,)
             queryset = queryset.order_by(*ordering)
-
+        favourite = FavouriteProduct.objects.filter(
+            product=OuterRef('pk'),
+            user=self.request.user
+        )
+        queryset = queryset.annotate(
+            is_favourite=Exists(favourite)
+        )
         return queryset
 
 
@@ -169,3 +177,52 @@ class ProductByCategory(ListView):
         qs = qs.filter(categories=self.category, )
         qs = qs.prefetch_related('products', 'categories', )
         return qs
+
+
+class FavouriteProductList(ListView):
+    model = FavouriteProduct
+    template_name = 'products/favourites_list.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+
+class AddOrRemoveFavoriteProduct(DetailView):
+    model = Product
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        favourite, created = FavouriteProduct.objects.get_or_create(
+            product=self.object,
+            user=request.user
+        )
+        if not created:
+            favourite.delete()
+        return HttpResponseRedirect(reverse_lazy('products'))
+
+
+class AJAXAddOrRemoveFavoriteProduct(DetailView):
+    model = Product
+
+    @method_decorator(login_required)
+    @method_decorator(ajax_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        favourite, created = FavouriteProduct.objects.get_or_create(
+            product=self.object,
+            user=request.user
+        )
+        if not created:
+            favourite.delete()
+        return JsonResponse({'is_favourite': created})

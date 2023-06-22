@@ -51,6 +51,11 @@
                         <p class="card-text">{{ product.description|truncatewords:35 }}</p>
                         <p class="card-price">{{ product.price }}$
                             ({{ product.price|multiply_price_by_usd_rate }}₴)</p>
+                        <p>
+                            <a href="javascript:void(0)" class="favourite-link" data-product_id="{{ product.id }}">
+                                <i class="bi {% if product.is_favourite %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                            </a>
+                        </p>
                         {% if product.products.exists %}
                             <p>Including:</p>
                             {% for sub in product.products.iterator %}
@@ -103,3 +108,12 @@
         {% include 'parts/paginator.html' %}
     {% endif %}
 {% endblock main %}
+{% block extra_scripts %}
+     <script>
+         $(document).ready(function () {
+             $('.favourite-link').click(function () {
+                 add_or_remove_favourite($(this), "{{ csrf_token }}")
+             })
+         })
+     </script>
+{% endblock extra_scripts %}
