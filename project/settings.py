@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
+from datetime import timedelta
 from pathlib import Path
 import environ
 from celery.schedules import crontab
@@ -66,6 +67,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
+    'drf_yasg',
     # internal packages
     'products',
     'orders',
@@ -208,6 +211,18 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'currencies.tasks.get_currencies_task',
         'schedule': crontab(hour='12', minute='0'),
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'apis.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
 }
 
 CACHES = {
