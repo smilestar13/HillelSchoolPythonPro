@@ -76,7 +76,6 @@ INSTALLED_APPS = [
     'accounts',
     'main',
     'tracking',
-    'wishes',
     'currencies',
     'rosetta'
 ]
