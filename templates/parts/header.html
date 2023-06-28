@@ -1,120 +1,111 @@
 {% load static %}
 {% load i18n %}
 <header>
-    <nav class="navbar navbar-expand-lg">
-        <style>
-            .navbar {
-                background-color: #FFC107;
-            }
-        </style>
+    <nav class="navbar my-custom-navbar sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'main' %}">
-                <img id="logo" class="logo" src="{% static "images/nectar-logo.png" %}" alt="logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler btn btn-link" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar"
+                    aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page"
-                           href="{% url 'main' %}">{% translate 'Home' %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page"
-                           href="{% url 'products' %}">{% translate 'Products' %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page"
-                           href="{% url 'feedbacks' %}">{% translate 'Feedbacks' %}</a>
-                    </li>
-                    {% include 'parts/category_menu.html' %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            Navigation
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'contacts' %}">Contacts</a></li>
-                            <li><a class="dropdown-item" href="{% url 'feedbacks' %}">Something2</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'feedback_create' %}">Create feedback</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-cart3" viewBox="0 0 16 16" style="margin-left: 10px;">
-                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                            </svg>
-                            <a class="nav-link active" aria-current="page" href="{% url 'order' %}"
-                               style="display: inline-block; vertical-align: middle;">Cart</a>
-                        </li>
-
-
-                        <li class="nav-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-clipboard2-heart" viewBox="0 0 16 16">
-                                <path d="M10.058.501a.501.501 0 0 0-.5-.501h-2.98c-.276 0-.5.225-.5.501A.499.499 0 0 1 5.582 1a.497.497 0 0 0-.497.497V2a.5.5 0 0 0 .5.5h4.968a.5.5 0 0 0 .5-.5v-.503A.497.497 0 0 0 10.555 1a.499.499 0 0 1-.497-.499Z"/>
-                                <path d="M3.605 2a.5.5 0 0 0-.5.5v12a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-12a.5.5 0 0 0-.5-.5h-.5a.5.5 0 0 1 0-1h.5a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-9a1.5 1.5 0 0 1-1.5-1.5v-12a1.5 1.5 0 0 1 1.5-1.5h.5a.5.5 0 0 1 0 1h-.5Z"/>
-                                <path d="M8.068 6.482c1.656-1.673 5.795 1.254 0 5.018-5.795-3.764-1.656-6.69 0-5.018Z"/>
-                            </svg>
-                            <a class="nav-link active" aria-current="page" href="{% url 'favourites' %}"
-                               style="display: inline-block; vertical-align: middle;">Favourites</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page"
-                               href="{% url 'profile' %}">{% translate 'Profile' %}</a>
-                        </li>
-
-                        <li>
-                            <form action="{% url 'set_language' %}"
-                                  method="post">
-                                {% csrf_token %}
-                                <input name="next" type="hidden"
-                                       value="{{ redirect_to }}">
-                                <select name="language">
-                                    {% get_current_language as LANGUAGE_CODE %}
-                                    {% get_available_languages as LANGUAGES %}
-                                    {% get_language_info_list for LANGUAGES as languages %}
-                                    {% for language in languages %}
-                                        <option value="{{ language.code }}"
-                                                {% if language.code == LANGUAGE_CODE %}
-                                                selected{% endif %}>
-                                            {{ language.name_local }}
-                                            ({{ language.code }})
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                                <input type="submit" value="Go">
-                            </form>
-                        </li>
-                        <div class="vr"></div>
-                        <li class="nav-item">
-                            {% if not user.is_authenticated %}
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'registration' %}">Registration</a>
-                                </li>
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                                </li>
-                            {% endif %}
-                        </li>
-                    </ul>
+            <div class="d-flex justify-content-center align-items-center flex-grow-1">
+                <div class="ms-auto text-center">
+                    <a class="navbar-brand" href="{% url 'main' %}">Nectar - honey shop</a>
                 </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center flex-grow-1">
+                <a href="{% url 'order' %}" class="btn btn-outline-dark btn-outline-color">
+                    <i class="bi bi-bag-check-fill"></i>
+                </a>
+                <a href="{% url 'favourites' %}" class="btn btn-outline-dark btn-outline-color">
+                    <i class="bi bi-heart-fill"></i>
+                </a>
+                <a href="{% url 'profile' %}" class="btn btn-outline-dark btn-outline-color">
+                    <i class="bi bi-person-lines-fill"></i>
+                </a>
+                <div class="vr"></div>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-door-open-fill"></i>
+                    </a>
+                    <a href="{% url 'registration' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'logout' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                {% endif %}
 
             </div>
+
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDarkNavbar"
+             aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header d-flex align-items-center">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Nectar - we love honey!</h5>
+                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a href="{% url 'main' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Home' %}
+                            <i class="bi bi-house"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'products' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Products' %}
+                            <i class="bi bi-cart-plus-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'contacts' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Contacts' %}
+                            <i class="bi bi-envelope-paper-heart-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'feedbacks' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Feedbacks' %}
+                            <i class="bi bi-emoji-smile-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'feedback_create' %}"
+                           class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Create feedback' %}
+                            <i class="bi bi-eraser-fill"></i>
+                        </a>
+                    </li>
+                    {% include 'parts/category_menu.html' %}
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <div class="language-buttons">
+                                <button type="submit" name="language" value="en"
+                                        class="language-button {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                                    <img src="{% static 'images/uk-flag.png' %}" alt="English Flag"
+                                         class="language-icon">
+                                    <span class="language-code">UK</span>
+                                </button>
+                                <div class="language-separator"></div>
+                                <button type="submit" name="language" value="uk"
+                                        class="language-button {% if LANGUAGE_CODE == 'uk' %}active{% endif %}">
+                                    <img src="{% static 'images/ua-flag.png' %}" alt="Ukrainian Flag"
+                                         class="language-icon">
+                                    <span class="language-code">UA</span>
+                                </button>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
         </div>
     </nav>
 </header>

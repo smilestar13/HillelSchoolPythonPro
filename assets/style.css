@@ -1,9 +1,94 @@
 .logo {width: 90px;
 }
+
 .sub-product .product-img{
     max-width: 80px;
 }
 
-.navbar {
-    background-color: #FFC107;
+.my-custom-navbar {
+  background-color: #FFC107;
 }
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar .navbar-nav .nav-item.dropdown .nav-link:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn.btn-outline-color {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent; /* установка прозрачного цвета границы */
+}
+
+.language-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.language-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #000;
+  transition: color 0.3s;
+}
+
+.language-button.active {
+  color: #2C3E50;
+}
+
+.language-button:hover:not(.active) {
+  color: #FF0000;
+}
+
+.language-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.language-code {
+  margin-right: 5px;
+}
+
+.language-separator {
+  width: 1px;
+  height: 16px;
+  background-color: #000;
+  margin: 0 8px;
+}
+
+
+.favourite-link {
+  display: inline-block;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.favourite-link .bi {
+  color: black;
+  transition: color 0.3s;
+}
+
+.favourite-link:hover .bi {
+  color: red;
+}
+
+.favourite-link.clicked .bi {
+  color: red;
+}
+
+

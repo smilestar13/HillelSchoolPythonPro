@@ -43,7 +43,7 @@ class ProductsView(FilterView):
             queryset = queryset.order_by(*ordering)
         favourite = FavouriteProduct.objects.filter(
             product=OuterRef('pk'),
-            user=self.request.user
+            user=self.request.user.id
         )
         queryset = queryset.annotate(
             is_favourite=Exists(favourite)
