@@ -13,7 +13,7 @@
                 <li class="list-group-item">
                     <span class="d-flex justify-content-between" data-bs-toggle="collapse"
                           href="#collapse{{ feedback.id }}">
-                        <span>{{ feedback.user.username }}:
+                        <span>{{ feedback.user.email }}:
                             <span class="text-warning">
                                 {% for i in "x"|ljust:feedback.rating %}★{% endfor %}
                             </span>
