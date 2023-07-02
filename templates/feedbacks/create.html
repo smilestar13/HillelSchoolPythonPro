@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}New feedback{% endblock title %}
+{% block body_class %}New feedback{% endblock body_class%}
+
+{% block main %}
+    <div class="col-12 col-lg-6 offset-lg-3 py-3">
+        <h2>Create new feedback here!</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% include 'parts/form.html' with form=form %}
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
+    </div>
+{% endblock main %}

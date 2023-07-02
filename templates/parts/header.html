@@ -1,0 +1,112 @@
+{% load static %}
+{% load i18n %}
+<header>
+    <nav class="navbar my-custom-navbar">
+        <div class="container-fluid">
+            <button class="navbar-toggler btn btn-link" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar"
+                    aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-flex justify-content-center align-items-center flex-grow-1">
+                <div class="ms-auto text-center">
+                    <a class="navbar-brand" href="{% url 'main' %}">Nectar - honey shop</a>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center flex-grow-1">
+                <a href="{% url 'order' %}" class="btn btn-outline-dark btn-outline-color">
+                    <i class="bi bi-bag-check-fill"></i>
+                </a>
+                {% if not user.is_authenticated %}
+                    <div class="vr"></div>
+                    <a href="{% url 'login' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-door-open-fill"></i>
+                    </a>
+                    <a href="{% url 'registration' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'favourites' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-heart-fill"></i>
+                    </a>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </a>
+                    <div class="vr"></div>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-dark btn-outline-color">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasDarkNavbar"
+             aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header d-flex align-items-center">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Nectar - we love honey!</h5>
+                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a href="{% url 'main' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Home' %}
+                            <i class="bi bi-house"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'products' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Products' %}
+                            <i class="bi bi-cart-plus-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'contacts' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Contacts' %}
+                            <i class="bi bi-envelope-paper-heart-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'feedbacks' %}" class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Feedbacks' %}
+                            <i class="bi bi-emoji-smile-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'feedback_create' %}"
+                           class="btn btn-outline-warning btn-outline-color text-dark">
+                            {% translate 'Create feedback' %}
+                            <i class="bi bi-eraser-fill"></i>
+                        </a>
+                    </li>
+                    {% include 'parts/category_menu.html' %}
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <div class="language-buttons">
+                                <button type="submit" name="language" value="en"
+                                        class="language-button {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                                    <img src="{% static 'images/uk-flag.png' %}" alt="English Flag"
+                                         class="language-icon">
+                                    <span class="language-code">UK</span>
+                                </button>
+                                <div class="language-separator"></div>
+                                <button type="submit" name="language" value="uk"
+                                        class="language-button {% if LANGUAGE_CODE == 'uk' %}active{% endif %}">
+                                    <img src="{% static 'images/ua-flag.png' %}" alt="Ukrainian Flag"
+                                         class="language-icon">
+                                    <span class="language-code">UA</span>
+                                </button>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+    </nav>
+</header>

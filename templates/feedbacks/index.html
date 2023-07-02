@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Feedbacks{% endblock title %}
+{% block body_class %}feedbacks{% endblock body_class %}
+
+{% block main %}
+    <div class="col-12 col-lg-6 offset-lg-3 py-3">
+        <h2>All feedbacks</h2>
+        <p>Сlick on the name to see 🌝</p>
+        <ul class="list-group py-3">
+            {% for feedback in object_list %}
+                <li class="list-group-item">
+                    <span class="d-flex justify-content-between" data-bs-toggle="collapse"
+                          href="#collapse{{ feedback.id }}">
+                        <span>{{ feedback.user.email }}:
+                            <span class="text-warning">
+                                {% for i in "x"|ljust:feedback.rating %}★{% endfor %}
+                            </span>
+                        </span>
+                        <span>{{ feedback.created_at|date:"d M Y" }}</span>
+                    </span>
+                    <div class="collapse" id="collapse{{ feedback.id }}">
+                        {{ feedback.text }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="text-center py-3">
+            <a href="{% url 'feedback_create' %}" class="btn btn-primary">Leave a new feedback!</a>
+        </div>
+    </div>
+{% endblock main %}

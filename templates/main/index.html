@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block title %}Main{% endblock title %}
+{% block body_class %}main{% endblock body_class %}
+
+{% block main %}
+    <div class="col-12 col-lg-6 py-3">
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'images/test_1.jpeg' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/test_2.jpeg' %}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/test_3.jpeg' %}" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 py-3">
+        <h2 style="text-align: center;">What we have?</h2>
+        <p>{% blocktranslate %}
+            There are countless varieties of honey available, but none compare to the exceptional quality and purity of
+            our honey. We take pride in offering the finest selection of environmentally-friendly honey in Ukraine. Our
+            honey undergoes stringent quality control measures to ensure its authenticity and nutritional value. Each
+            jar of our honey is a testament to our commitment to providing customers with the best nature has to offer.
+        {% endblocktranslate %}</p>
+        <p>{% blocktranslate %}
+            At our family-owned business, we have over 350+ bee colonies, with a rich heritage spanning several decades.
+            With a deep-rooted passion for beekeeping, we have dedicated our lives to the art of honey production. Our
+            expertise and experience have allowed us to cultivate a thriving community of over 60+ beekeeping families,
+            working together to produce the most exquisite honey.
+        {% endblocktranslate %}</p>
+
+    </div>
+    <div class="col-12 col-lg-12 py-3">
+        <h2 style="text-align: center;">Who we are?</h2>
+        <p>
+            {% blocktranslate %}
+                From the picturesque landscapes of Ukraine, our bees diligently collect nectar from a diverse range of
+                flowers,
+                resulting in honey with a distinct flavor profile and exceptional nutritional properties. We employ
+                traditional
+                and sustainable beekeeping practices, ensuring the well-being of our bees and the preservation of our
+                precious
+                ecosystems.
+            {% endblocktranslate %}</p>
+        <p>
+            {% blocktranslate %}
+                When you choose our honey, you not only indulge in a delightful culinary experience but also support
+                sustainable
+                agriculture and the preservation of nature. Our honey is free from additives, pesticides, and any
+                artificial
+                substances, making it a healthy and responsible choice for you and your family.
+            {% endblocktranslate %}</p>
+        <p>
+            {% blocktranslate %}
+                Discover the unmatched taste and purity of our honey, and experience the natural goodness that sets us
+                apart.
+                Join us on this journey of savoring the finest honey nature has to offer.
+            {% endblocktranslate %}</p>
+        <h6 style="text-align: center;">All text produced by chat-gpt!</h6>
+    </div>
+{% endblock main %}

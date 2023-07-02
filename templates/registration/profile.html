@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Your profile</h2>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Second name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Phone Number: {{ user.phone }}</p>
+    <a href="{% url 'update_phone' %}">Update Phone Number</a>
+{% endblock main %}
