@@ -2,8 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, RedirectView
-from django.utils.translation import gettext_lazy as _
-from django.contrib import messages
 
 
 # импорт пользовательского миксина для получения текущего заказа
