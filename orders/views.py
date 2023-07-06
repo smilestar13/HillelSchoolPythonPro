@@ -54,23 +54,8 @@ class CartActionView(GetCurrentOrderMixin, RedirectView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        """Метод для обработки POST-запросов"""
-        form = CartActionForm(request.POST, instance=self.get_object())
+        form = CartActionForm(request.POST, instance=self.get_object(),
+                              order_item_id=request.GET.get('order_item_id'))
         if form.is_valid():
-            action = kwargs.get('action')
-            if action == 'add':
-                form.action(action)
-                messages.success(self.request, _('New item added in cart!'))
-            elif action == 'pay':
-                form.action(action)
-                messages.success(self.request, _('Order has been paid!'))
-            elif action == 'remove':
-                form.action(action)
-                messages.add_message(self.request, messages.SUCCESS,
-                                     _('Item removed.'), extra_tags='danger')
-            elif action == 'clear':
-                form.action(action)
-                messages.add_message(self.request, messages.SUCCESS,
-                                     _('The order has been cleared.'),
-                                     extra_tags='danger')
+            form.action(kwargs.get('action'))
         return self.get(request, *args, **kwargs)
