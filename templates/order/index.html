@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 
-{% block title %}Кошик{% endblock title %}
-{% block body_class %}cart{% endblock body_class %}
-
 {% block main %}
     <div class="col-12 my-3 my-lg-5">
         {% if order_items %}
@@ -47,10 +44,8 @@
                                 {{ item.sub_total }}
                             </td>
                             <td>
-                                <input type="hidden" name="order_item_id"
-                                       value="{{ item.id }}">
                                 <input type="submit" value="Remove"
-                                       formaction="{% url 'order_action' 'remove' %}"
+                                       formaction="{% url 'order_action' 'remove' %}?order_item_id={{ item.id }}"
                                        class="btn btn-danger w-100">
                             </td>
                         </tr>
@@ -61,8 +56,8 @@
                         <td></td>
                         <td>
                             <input type="submit" value="Clear cart"
-                                   formaction="{% url 'order_action' 'clear' %}"
-                                   class="btn btn-danger w-100">
+                                       formaction="{% url 'order_action' 'clear' %}"
+                                       class="btn btn-danger w-100">
                         </td>
                         <td>Total: <span
                                 class="small">(including discount)</span></td>
