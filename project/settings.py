@@ -95,7 +95,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'project.middlewares.TrackingMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
+    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 ]
 
 # if DEBUG:
@@ -244,11 +244,11 @@ CACHES = {
     }
 }
 
-RESTRICT_ADMIN = True
-ALLOWED_ADMIN_IPS = ['95.67.77.242']
-ALLOWED_ADMIN_IP_RANGES = []
-RESTRICTED_APP_NAMES = ['admin']
-TRUST_PRIVATE_IP = True
+# RESTRICT_ADMIN = True
+# ALLOWED_ADMIN_IPS = ['95.67.77.242']
+# ALLOWED_ADMIN_IP_RANGES = []
+# RESTRICTED_APP_NAMES = ['admin']
+# TRUST_PRIVATE_IP = True
 
 try:
     from project.settings_local import *  # noqa
