@@ -29,4 +29,3 @@ drf-yasg==1.21.5
 djangorestframework-simplejwt==5.2.2
 psycopg==3.1.9
 daphne==4.0.0
-django-ipware==5.0.2
