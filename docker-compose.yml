@@ -59,7 +59,7 @@ services:
       - ./logs/nginx/:/project/logs/nginx/
       - ./static_files/:/project/static_files/
       - ./media/:/project/media/
-      - /etc/letsencrypt/live/nectar-honey.com.ua/fullchain.pem:/etc/letsencrypt/live/nectar-honey.com.ua/fullchain.pem  # Монтируем SSL-сертифик
+      - /etc/letsencrypt/live/nectar-honey.com.ua/fullchain.pem:/etc/letsencrypt/live/nectar-honey.com.ua/fullchain.pem  # Монтируем SSL-сертификат
       - /etc/letsencrypt/live/nectar-honey.com.ua/privkey.pem:/etc/letsencrypt/live/nectar-honey.com.ua/privkey.pem  # Монтируем приватный ключ
     depends_on:
       - backend
