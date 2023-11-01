@@ -94,7 +94,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'project.middlewares.TrackingMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.locale.LocaleMiddleware',
+    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 ]
 
 # if DEBUG:
@@ -242,6 +243,12 @@ CACHES = {
         "LOCATION": "redis://redis:6379",
     }
 }
+
+RESTRICT_ADMIN=True
+ALLOWED_ADMIN_IPS=['95.67.77.242']
+ALLOWED_ADMIN_IP_RANGES=[]
+RESTRICTED_APP_NAMES=['admin']
+TRUST_PRIVATE_IP=True
 
 try:
     from project.settings_local import *  # noqa
