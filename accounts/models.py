@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 class UserManager(AuthUserManager):
     def _create_user(self, email, password, **extra_fields):
         """
-        Create and save a user with the given username, email, and password.
+        Create and save a user with the given email, and password.
         """
         if not email:
             raise ValueError("The given email must be set")
@@ -85,4 +85,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
-        send_mail(subject, message, from_email, [self.email], **kwargs)
+        send_mail(subject, message, from_email, [self.email], **kwargs)  #todo

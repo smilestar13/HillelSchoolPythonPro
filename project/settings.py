@@ -132,23 +132,23 @@ ASGI_APPLICATION = "project.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": 'django.db.backends.postgresql',
-        "NAME": env("SQL_DATABASE", default="SQL_DATABASE"),
-        "USER": env("SQL_USER", default="SQL_USER"),
-        "PASSWORD": env("SQL_PASSWORD", default="SQL_PASSWORD"),
-        "HOST": env("SQL_HOST", default="SQL_HOST"),
-        "PORT": env("SQL_PORT", default="5432"),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": 'django.db.backends.postgresql',
+#         "NAME": env("SQL_DATABASE", default="SQL_DATABASE"),
+#         "USER": env("SQL_USER", default="SQL_USER"),
+#         "PASSWORD": env("SQL_PASSWORD", default="SQL_PASSWORD"),
+#         "HOST": env("SQL_HOST", default="SQL_HOST"),
+#         "PORT": env("SQL_PORT", default="5432"),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -175,6 +175,7 @@ AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
     "accounts.auth_backends.EmailOrPhoneModelBackend"
 ]
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -200,14 +201,12 @@ USE_TZ = True
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = 'static_files/'
 STATICFILES_DIRS = ['assets']
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

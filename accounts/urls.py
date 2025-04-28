@@ -28,7 +28,7 @@ urlpatterns = [
         name="password_change_done",
     ),
     path("password_reset/", auth_views.PasswordResetView.as_view(),
-         name="password_reset"),
+         name="password_reset"),  #todo не работает, если не залогинен + нужна почта
     path(
         "password_reset/done/",
         auth_views.PasswordResetDoneView.as_view(),
